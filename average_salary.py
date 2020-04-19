@@ -23,14 +23,11 @@ def get_url():
 if get_url():
     minsal = set()
     jsn = json.loads(get_url())
-    for i in jsn['results']['vacancies']:
-        if (i['vacancy']['salary_min']) != 0:
-            if (i['vacancy']['salary_max']) != 0:
-                minsal.add(((i['vacancy']['salary_min']) + (i['vacancy']['salary_max'])) / 2)
-            else:
-                minsal.add(i['vacancy']['salary_min'])
-
-    sal = str(round((statistics.mean(minsal)), 1))
-    cnt = str(len(minsal))
-    print(f'Средняя зарплата в Туве на основе анализа {cnt} вакансий : {sal} рублей')
-
+    data = [x for x in jsn['results']['vacancies']]
+    salary_min = [x['vacancy']['salary_min'] for x in data]
+    salary_min = [x for x in salary_min if x != 0]
+    mean_zp = round(statistics.mean(salary_min))
+    count_vac = len(salary_min)
+    print(f'Средняя зарплата в Туве на основе анализа {count_vac} вакансий : {mean_zp} рублей')
+else:
+    print ('Ошибка, данные не получены')
