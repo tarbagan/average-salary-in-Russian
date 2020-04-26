@@ -7,9 +7,12 @@ https://github.com/tarbagan/average-salary-in-Russian
 import requests
 import json
 import statistics
+import datetime
 
 URL = 'http://opendata.trudvsem.ru/api/v1/vacancies/region/1700000000000/?offset=0&limit=1000'
 
+now = datetime.datetime.now()
+date = now.strftime("%d/%m/%Y")
 
 def get_url():
     """Получаем данные"""
@@ -28,6 +31,6 @@ if get_url():
     salary_min = [x for x in salary_min if x != 0]
     mean_zp = round(statistics.mean(salary_min))
     count_vac = len(salary_min)
-    print(f'Средняя зарплата в Туве на основе анализа {count_vac} вакансий : {mean_zp} рублей')
+    print(f'{date} Средняя зарплата в Туве на основе анализа {count_vac} трудовых вакансий : {mean_zp} рублей')
 else:
     print ('Ошибка, данные не получены')
